@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.UserMapper" >
+
+    <!-- 字段实体关系映射 -->
+    <resultMap id="BaseResultMap" type="com.ikats.ams.entity.UserBean" >
+        <id column="id" property="id" jdbcType="BIGINT" />  <!-- 主键 -->
+        <result column="user_ename" property="userEName" jdbcType="VARCHAR" />  <!-- 用户中文名 -->
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />  <!-- 用户登录账号 -->
+        <result column="password" property="password" jdbcType="VARCHAR" />  <!-- 名称 -->
+        <result column="user_cname" property="userCName" jdbcType="VARCHAR" />  <!-- 用户英文名 -->
+        <result column="phone" property="phone" jdbcType="VARCHAR" />  <!-- 手机号 -->
+        <result column="email" property="email" jdbcType="VARCHAR" />  <!--  -->
+        <result column="user_identity_type" property="userIdentityType" jdbcType="VARCHAR" />  <!-- 证件类型 -->
+        <result column="user_identity_card_no" property="userIdentityCardNo" jdbcType="VARCHAR" />  <!-- 证件号 -->
+        <result column="user_location" property="userLocation" jdbcType="VARCHAR" />  <!-- 所在地 -->
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />  <!-- 最后登录时间 -->
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />  <!-- 层级 -->
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="id_pic_front" property="idPicFront" jdbcType="VARCHAR" />  <!-- 前证件照 -->
+        <result column="id_pic_behind" property="idPicBehind" jdbcType="VARCHAR" />  <!-- 后证件照 -->
+        <result column="organization_id" property="organizationId" jdbcType="INTEGER" />  <!--  -->
+        <result column="default_logistics_id" property="defaultLogisticsId" jdbcType="INTEGER" />  <!--  -->
+        <result column="user_wxid" property="userWxid" jdbcType="VARCHAR" />  <!-- 微信 -->
+        <result column="department" property="department" jdbcType="VARCHAR" />  <!-- 所属部门 -->
+        <result column="managed_business" property="managedBusiness" jdbcType="VARCHAR" />  <!--从事业务类型 -->
+        <result column="user_level" property="userLevel" jdbcType="VARCHAR" />  <!--用户级别 -->
+        <result column="retry_time" property="retryTime" jdbcType="INTEGER" />  <!-- 重试次数 -->
+        <result column="creator" property="creator" jdbcType="VARCHAR" />  <!-- 创建人 -->
+        <result column="user_status" property="userStatus" jdbcType="VARCHAR" />  <!-- 用户状态 -->
+        <result column="last_name" property="lastName" jdbcType="VARCHAR" />  <!--  -->
+        <result column="first_name" property="firstName" jdbcType="VARCHAR" />  <!--  -->
+        <result column="org_code" property="orgCode" jdbcType="VARCHAR" />  <!--组织4位编码  -->
+        <result column="df" property="df" jdbcType="INTEGER" />  <!-- 0/1 -->
+    </resultMap>
+
+    <!-- 字段列表 -->
+    <sql id="Base_Column_List" >
+        id
+        ,user_ename
+        ,user_name
+        ,password
+        ,user_cname
+        ,phone
+        ,email
+        ,user_identity_type
+        ,user_identity_card_no
+        ,user_location
+        ,login_time
+        ,create_time
+        ,status
+        ,id_pic_front
+        ,id_pic_behind
+        ,organization_id
+        ,default_logistics_id
+        ,user_wxid
+        ,department
+        ,managed_business
+        ,user_level
+        ,retry_time
+        ,creator
+        ,user_status
+        ,last_name
+        ,first_name
+        ,org_code
+    </sql>
+
+    <!-- 常用的查询条件集合 -->
+    <sql id="Filter_Where">
+        <if test="express.containsKey('id') and express.id!=''"> and id = '${express.id}' </if>
+        <if test="express.containsKey('userEName') and express.userEName!=''"> and user_ename = '${express.userEName}' </if>
+        <if test="express.containsKey('userName') and express.userName!=''"> and user_name = '${express.userName}' </if>
+        <if test="express.containsKey('password') and express.password!=''"> and password = '${express.password}' </if>
+        <if test="express.containsKey('userCName') and express.userCName!=''"> and user_cname = '${express.userCName}' </if>
+        <if test="express.containsKey('phone') and express.phone!=''"> and phone = '${express.phone}' </if>
+        <if test="express.containsKey('email') and express.email!=''"> and email = '${express.email}' </if>
+        <if test="express.containsKey('userIdentityType') and express.userIdentityType!=''"> and user_identity_type = '${express.userIdentityType}' </if>
+        <if test="express.containsKey('userIdentityCardNo') and express.userIdentityCardNo!=''"> and user_identity_card_no = '${express.userIdentityCardNo}' </if>
+        <if test="express.containsKey('userLocation') and express.userLocation!=''"> and user_location = '${express.userLocation}' </if>
+        <if test="express.containsKey('loginTime') and express.loginTime!=''"> and login_time = '${express.loginTime}' </if>
+        <if test="express.containsKey('createTime') and express.createTime!=''"> and create_time = '${express.createTime}' </if>
+        <if test="express.containsKey('status') and express.status!=''"> and status ='${express.status}'</if>
+        <if test="express.containsKey('organizationId') and express.organizationId!=''"> and organization_id ='${express.organizationId}'</if>
+        <if test="express.containsKey('defaultLogisticsId') and express.defaultLogisticsId!=''"> and default_logistics_id ='${express.defaultLogisticsId}'</if>
+        <if test="express.containsKey('userWxid') and express.userWxid!=''"> and user_wxid ='${express.userWxid}'</if>
+        <if test="express.containsKey('department') and express.department!=''"> and department ='${express.department}'</if>
+        <if test="express.containsKey('managedBusiness') and express.managedBusiness!=''"> and managed_business ='${express.managedBusiness}'</if>
+        <if test="express.containsKey('userLevel') and express.userLevel!=''"> and user_level ='${express.userLevel}'</if>
+        <if test="express.containsKey('retryTime') and express.retryTime!=''"> and retry_time ='${express.retryTime}'</if>
+        <if test="express.containsKey('creator') and express.creator!=''"> and creator ='${express.creator}'</if>
+        <if test="express.containsKey('userStatus') and express.userStatus!=''"> and user_status ='${express.userStatus}'</if>
+        <if test="express.containsKey('lastName') and express.lastName!=''"> and last_name ='${express.lastName}'</if>
+        <if test="express.containsKey('firstName') and express.firstName!=''"> and first_name ='${express.firstName}'</if>
+        <if test="express.containsKey('orgCode') and express.orgCode!=''"> and org_code ='${express.orgCode}'</if>
+        <if test="express.containsKey('df') and express.df!=''"> and df ='${express.df}'</if>
+    </sql>
+
+    <!-- 保存单条记录 -->
+    <insert id="insert" parameterType="com.ikats.ams.entity.UserBean" useGeneratedKeys="true" keyProperty="id">
+        insert into cms_user (
+            user_ename
+            ,user_name
+            ,password
+            ,user_cname
+            ,phone
+            ,email
+            ,user_identity_type
+            ,user_identity_card_no
+            ,user_location
+            ,create_time
+            ,status
+            ,id_pic_front
+            ,id_pic_behind
+            ,organization_id
+            ,default_logistics_id
+            ,user_wxid
+            ,department
+            ,managed_business
+            ,user_level
+            ,retry_time
+            ,creator
+            ,user_status
+             ,last_name
+            ,first_name
+             ,org_code
+             ,df
+            )
+            values (
+            #{userEName,jdbcType=VARCHAR}
+            ,#{userName,jdbcType=VARCHAR}
+            ,#{password,jdbcType=VARCHAR}
+            ,#{userCName,jdbcType=VARCHAR}
+            ,#{phone,jdbcType=VARCHAR}
+            ,#{email,jdbcType=VARCHAR}
+            ,#{userIdentityType,jdbcType=VARCHAR}
+            ,#{userIdentityCardNo,jdbcType=VARCHAR}
+            ,#{userLocation,jdbcType=VARCHAR}
+            ,#{createTime,jdbcType=TIMESTAMP}
+            ,#{status,jdbcType=VARCHAR}
+            ,#{idPicFront,jdbcType=VARCHAR}
+            ,#{idPicBehind,jdbcType=VARCHAR}
+            ,#{organizationId,jdbcType=INTEGER}
+            ,#{defaultLogisticsId,jdbcType=INTEGER}
+            ,#{userWxid,jdbcType=VARCHAR}
+            ,#{department,jdbcType=VARCHAR}
+            ,#{managedBusiness,jdbcType=VARCHAR}
+            ,#{userLevel,jdbcType=VARCHAR}
+            ,#{retryTime,jdbcType=INTEGER}
+            ,#{creator,jdbcType=VARCHAR}
+            ,#{userStatus,jdbcType=VARCHAR}
+            ,#{lastName,jdbcType=VARCHAR}
+            ,#{firstName,jdbcType=VARCHAR}
+            ,#{orgCode,jdbcType=VARCHAR}
+            ,'0'
+            )
+    </insert>
+
+    <!-- 根据ID更新记录 -->
+    <update id="updateByKey" parameterType="com.ikats.ams.entity.UserBean">
+        update cms_user
+        <set>
+            <if test="userEName != null "> user_ename = #{userEName,jdbcType=VARCHAR}, </if>
+            <if test="userName != null "> user_name = #{userName,jdbcType=VARCHAR}, </if>
+            <if test="password != null "> password = #{password,jdbcType=VARCHAR}, </if>
+            <if test="userCName != null "> user_cname = #{userCName,jdbcType=VARCHAR}, </if>
+            <if test="email != null "> email = #{email,jdbcType=VARCHAR}, </if>
+            <if test="userIdentityType != null"> user_identity_type = #{userIdentityType,jdbcType=VARCHAR}, </if>
+            <if test="userIdentityCardNo != null"> user_identity_card_no = #{userIdentityCardNo,jdbcType=VARCHAR}, </if>
+            <if test="userLocation != null"> user_location = #{userLocation,jdbcType=VARCHAR},</if>
+            <if test="phone != null "> phone = #{phone,jdbcType=VARCHAR}, </if>
+            <if test="LoTime != null "> login_time = now(), </if>
+            <if test="status != null "> status = #{status,jdbcType=VARCHAR}, </if>
+            <if test="idPicFront != null "> id_pic_front = #{idPicFront,jdbcType=VARCHAR}, </if>
+            <if test="idPicBehind != null "> id_pic_behind = #{idPicBehind,jdbcType=VARCHAR}, </if>
+            <if test="organizationId != null "> organization_id = #{organizationId,jdbcType=INTEGER}, </if>
+            <if test="defaultLogisticsId != null "> default_logistics_id = #{defaultLogisticsId,jdbcType=VARCHAR}, </if>
+            <if test="userWxid != null "> user_wxid = #{userWxid,jdbcType=VARCHAR}, </if>
+            <if test="department != null "> department = #{department,jdbcType=VARCHAR}, </if>
+            <if test="managedBusiness != null "> managed_business = #{managedBusiness,jdbcType=VARCHAR}, </if>
+            <if test="userLevel != null "> user_level = #{userLevel,jdbcType=VARCHAR}, </if>
+            <if test="retryTime != null "> retry_time = #{retryTime,jdbcType=INTEGER}, </if>
+            <if test="creator != null "> creator = #{creator,jdbcType=VARCHAR}, </if>
+            <if test="userStatus != null "> user_status = #{userStatus,jdbcType=VARCHAR}, </if>
+            <if test="lastName != null "> last_name = #{lastName,jdbcType=VARCHAR}, </if>
+            <if test="firstName != null "> first_name = #{firstName,jdbcType=VARCHAR}, </if>
+            <if test="orgCode != null "> org_code = #{orgCode,jdbcType=VARCHAR}, </if>
+            <if test="df != null "> df = #{df,jdbcType=INTEGER}, </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询记录 -->
+    <select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="Base_Column_List" />
+        from cms_user
+        where df='0' and id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据条件查询所有记录 -->
+    <select id="pageByQuery" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from cms_user
+        where df='0'
+        <if test="express">
+            <include refid="Filter_Where" />
+        </if>
+        order by id desc
+        limit ${pageSize} offset ${pageNum}
+    </select>
+
+    <!-- 查询记录数量 -->
+    <select id="selectCount" resultType="java.lang.Long" parameterType="com.ikats.ams.entity.query.UserQuery">
+        select count(1)
+        from cms_user
+        where df='0'
+        <if test="express">
+            <include refid="Filter_Where" />
+        </if>
+    </select>
+
+    <!-- 根据条件查询所有记录 -->
+    <select id="selectByQuery" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from cms_user
+        where df='0'
+        <if test="express">
+            <include refid="Filter_Where" />
+        </if>
+        order by id desc
+    </select>
+
+    <!-- 根据ID删除记录 -->
+    <update id="delete" parameterType="java.lang.Long">
+        update  cms_user set  df='1'
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.PermissionMapper" >
+
+    <!-- 许可/权限 -->
+
+    <!-- 字段实体关系映射 -->
+    <resultMap id="BaseResultMap" type="com.ikats.ams.entity.PermissionBean" >
+        <id column="id" property="id" jdbcType="BIGINT" />  <!--  -->
+        <result column="name" property="name" jdbcType="VARCHAR" />  <!-- 资源名称 -->
+        <result column="code" property="code" jdbcType="VARCHAR" />  <!-- 资源 -->
+        <result column="enabled" property="enabled" jdbcType="VARCHAR" />  <!-- 是否可用,1 -->
+        <result column="pid" property="pid" jdbcType="BIGINT" />  <!-- 层级 -->
+        <result column="icon" property="icon" jdbcType="VARCHAR" />  <!-- TUbiao -->
+    </resultMap>
+
+    <!-- 字段列表 -->
+    <sql id="Base_Column_List" >
+        id  <!--  -->
+        ,name  <!-- 资源名称 -->
+        ,code  <!-- 资源 -->
+        ,enabled  <!-- 是否可用,1 -->
+        ,pid  <!-- 层级 -->
+        ,icon
+    </sql>
+
+    <!-- 常用的查询条件集合 -->
+    <sql id="Filter_Where">
+        1=1
+        <if test="express.containsKey('id')  and express.id!=''"> and id = '${express.id}' </if>
+        <if test="express.containsKey('name')  and express.name!=''"> and name = '${express.name}' </if>
+        <if test="express.containsKey('code') and express.code!=''"> and code = '${express.code}' </if>
+        <if test="express.containsKey('enabled') and express.enabled!=''"> and enabled = '${express.enabled}' </if>
+        <if test="express.containsKey('pid') and express.pid!=''"> and pid = '${express.pid}' </if>
+        <if test="express.containsKey('icon') and express.icon!=''"> and icon = '${express.icon}' </if>
+    </sql>
+
+    <!-- 保存单条记录 -->
+    <insert id="insert" parameterType="com.ikats.ams.entity.PermissionBean" useGeneratedKeys="true" keyProperty="id">
+		insert into cms_permission (
+ 	    	 name
+ 	    	,code
+ 	    	,enabled
+ 	    	,pid
+ 	    	,icon
+		)
+		values (
+		#{name,jdbcType=VARCHAR}
+		,#{code,jdbcType=VARCHAR}
+		,'1'
+		,#{pid,jdbcType=BIGINT}
+		,#{icon,jdbcType=VARCHAR}
+		)
+    </insert>
+
+    <!-- 保存一批记录 -->
+    <insert id="insertList" parameterType="List" >
+        insert into cms_permission (
+        name
+        ,code
+        ,enabled
+        ,pid
+        ,icon
+        )
+        values
+        <foreach collection="list" item="bean" index="index" separator="," >
+            (
+            #{bean.name,jdbcType=VARCHAR}
+            ,#{bean.code,jdbcType=VARCHAR}
+            ,'1'
+            ,#{bean.pid,jdbcType=BIGINT}
+            ,#{bean.icon,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 根据ID更新记录 -->
+    <update id="updateByKey" parameterType="com.ikats.ams.entity.PermissionBean">
+        update cms_permission
+        <set>
+            <if test="name != null "> name = #{name,jdbcType=VARCHAR}, </if>
+            <if test="code != null "> code = #{code,jdbcType=VARCHAR}, </if>
+            <if test="enabled != null "> enabled = #{enabled,jdbcType=VARCHAR}, </if>
+            <if test="pid != null "> pid = #{pid,jdbcType=BIGINT}, </if>
+            <if test="icon != null "> icon = #{icon,jdbcType=BIGINT}, </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID删除记录 -->
+    <delete id="deleteByKey" parameterType="java.lang.Long">
+        delete from cms_permission
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 根据ID查询记录 -->
+    <select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="Base_Column_List" />
+        from cms_permission
+        where 1=1 and id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 筛选记录 -->
+    <select id="selectByQuery" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from cms_permission
+        where <include refid="Filter_Where" />
+        order by id desc
+    </select>
+
+    <!-- 根据用户id查询URL -->
+    <select id="findPermissionListByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM cms_permission
+        where 1=1
+        AND id IN
+              (SELECT permission_id
+               FROM cms_role_permission
+               WHERE role_id IN
+                  (SELECT role_id
+                   FROM cms_user_role
+                   WHERE user_id = #{userId}))
+        ORDER BY id DESC
+    </select>
+
+
+    <!-- 根据用户id查询菜单权限 -->
+    <select id="getPermissionMenu" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM cms_permission
+        where pid = 0
+        AND id IN
+        (SELECT permission_id
+        FROM cms_role_permission
+        WHERE role_id IN
+        (SELECT role_id
+        FROM cms_user_role
+        WHERE user_id = #{userId}))
+        order by id asc
+    </select>
+
+    <!-- 根据用户id查询菜单权限 -->
+    <select id="getFunctionPermission" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM cms_permission
+        where pid &gt; 0
+        AND id IN
+        (SELECT permission_id
+        FROM cms_role_permission
+        WHERE role_id IN
+        (SELECT role_id
+        FROM cms_user_role
+        WHERE user_id = #{userId}))
+        order by id asc
+    </select>
+
+    <!-- 根据roleid获取权限列表 -->
+    <select id="findPermissionListByRoleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM cms_permission
+        where 1=1
+        AND id IN
+        (SELECT permission_id
+        FROM cms_role_permission
+        WHERE role_id =#{roleId})
+        order by id asc
+    </select>
+
+</mapper>

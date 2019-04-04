@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.AmsUserRoleMapper" >
+
+    <!-- 字段实体关系映射 -->
+    <resultMap id="BaseResultMap" type="com.ikats.ams.entity.AmsUserRoleBean" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT"/>
+		<result column="role_id" property="roleId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!-- 字段列表 -->
+    <sql id="Base_Column_List" >
+ 	     id
+ 	    ,user_id
+ 	    ,role_id
+    </sql>
+
+	<!-- 表名称 -->
+	<sql id="Base_Table_Name" >
+		ams_user_role
+	</sql>
+
+
+	<!-- 常用的查询条件集合 -->
+	<sql id="Filter_Where">
+		1=1
+		<if test="express.containsKey('id') and express.id!=''"> and id = '${express.id}' </if>
+		<if test="express.containsKey('userId') and express.userId!=''"> and user_id = '${express.userId}' </if>
+		<if test="express.containsKey('roleId') and express.roleId!=''"> and role_id = '${express.roleId}' </if>
+	</sql>
+
+	<!-- 保存单条记录 -->
+	<insert id="insert" parameterType="com.ikats.ams.entity.AmsUserRoleBean">
+		insert into
+		<include refid="Base_Table_Name" />
+		(
+		user_id
+		,role_id
+		)
+		values (
+ 	    	 #{userId,jdbcType=BIGINT}
+			,#{roleId,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 根据用户id查询 -->
+	<select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select <include refid="Base_Column_List" />
+		from <include refid="Base_Table_Name" />
+		where 1=1 and user_id = #{userId,jdbcType=BIGINT}
+	</select>
+
+	<!-- 根据userID更新记录 -->
+	<update id="updateByUid" parameterType="com.ikats.ams.entity.AmsUserRoleBean">
+		update <include refid="Base_Table_Name" />
+		set role_id =  #{roleId,jdbcType=BIGINT}
+		where user_id = #{userId,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID删除记录 -->
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from <include refid="Base_Table_Name" />
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 根据ID删除记录 -->
+	<delete id="deleteByUid" parameterType="java.lang.Long">
+		delete from <include refid="Base_Table_Name" />
+		where user_id = #{userId,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 筛选记录 -->
+	<select id="selectByQuery" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" />
+		from <include refid="Base_Table_Name" />
+		where <include refid="Filter_Where" />
+		order by id desc
+	</select>
+
+</mapper>

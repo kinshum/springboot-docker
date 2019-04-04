@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.AmsBusinessTypeMapper" >
+
+	<!-- 业务类型 -->
+
+	<!-- 字段实体关系映射 -->
+	<resultMap id="BaseResultMap" type="com.ikats.ams.entity.AmsBusinessTypeBean" >
+		<id column="id" property="id" jdbcType="BIGINT" />  <!--  -->
+		<result column="business_type_name" property="businessTypeName" jdbcType="VARCHAR" />  <!-- 业务类型名称 -->
+		<result column="org_id" property="orgId" jdbcType="INTEGER" />  <!-- 组织id -->
+	</resultMap>
+
+	<!-- 字段列表 -->
+	<sql id="Base_Column_List" >
+		id  <!--  -->
+		,business_type_name  <!-- 业务类型名称 -->
+		,org_id
+	</sql>
+
+	<!-- 常用的查询条件集合 -->
+	<sql id="Filter_Where">
+		<if test="express.containsKey('id') and express.id!=''"> and id = '${express.id}' </if>
+		<if test="express.containsKey('businessTypeName') and express.businessTypeName!=''"> and business_type_name = '${express.businessTypeName}' </if>
+		<if test="express.containsKey('orgId') and express.orgId!=''"> and org_id = '${express.orgId}' </if>
+	</sql>
+
+	<!-- 保存单条记录 -->
+	<insert id="insert" parameterType="com.ikats.ams.entity.AmsBusinessTypeBean" useGeneratedKeys="true" keyProperty="id">
+		insert into ams_business_type (
+		business_type_name
+		,org_id
+		)
+		values (
+		#{businessTypeName,jdbcType=VARCHAR}
+		,#{orgId,jdbcType=INTEGER}
+		)
+	</insert>
+
+
+	<!-- 根据ID更新记录 -->
+	<update id="update" parameterType="com.ikats.ams.entity.AmsBusinessTypeBean">
+		update ams_business_type
+		<set>
+			<if test="businessTypeName != null "> business_type_name = #{businessTypeName,jdbcType=VARCHAR}, </if>
+			<if test="orgId != null "> org_id = #{orgId,jdbcType=INTEGER}, </if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID删除记录 -->
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from ams_business_type
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 根据ID查询记录 -->
+	<select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select <include refid="Base_Column_List" />
+		from ams_business_type
+		where 1=1 and id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="pageByQuery" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from ams_business_type
+		where 1=1
+		<include refid="Filter_Where" />
+		order by id desc
+		limit ${pageSize} offset ${pageNum}
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="selectByQuery" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from ams_business_type
+		where 1=1
+		<include refid="Filter_Where" />
+		order by id desc
+	</select>
+
+
+	<!-- 查询记录数量 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="com.ikats.ams.entity.query.AmsBusinessTypeQuery">
+		select count(1)
+		from ams_business_type
+		WHERE
+		1=1
+		<include refid="Filter_Where" />
+	</select>
+
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.AccountCategoryMapper" >
+
+	<!-- 财务科目 -->
+
+	<!-- 字段实体关系映射 -->
+	<resultMap id="BaseResultMap" type="com.ikats.ams.entity.AccountCategoryBean" >
+		<id column="id" property="id" jdbcType="BIGINT" />  <!--  -->
+		<result column="account_id" property="accountId" jdbcType="VARCHAR" />  <!-- 账套编码 ， -->
+		<result column="in_out" property="inout" jdbcType="VARCHAR" />  <!-- 收入支出 ， ， -->
+		<result column="category_level1_code" property="categoryLevel1Code" jdbcType="VARCHAR" />  <!-- 一级分类编码 ， -->
+		<result column="category_level1_name" property="categoryLevel1Name" jdbcType="VARCHAR" />  <!-- 一级分类名称 ， -->
+		<result column="category_level2_code" property="categoryLevel2Code" jdbcType="VARCHAR" />  <!-- 二级分类编码 ， -->
+		<result column="category_level2_name" property="categoryLevel2Name" jdbcType="VARCHAR" />  <!-- 二级分类名称 ， -->
+		<result column="category_code" property="categoryCode" jdbcType="VARCHAR" />  <!-- 记账科目编码 ， -->
+		<result column="category_name" property="categoryName" jdbcType="VARCHAR" />  <!-- 记账科目名称 ， -->
+		<result column="note" property="note" jdbcType="VARCHAR" />  <!-- 科目说明 ， -->
+		<result column="creator" property="creator" jdbcType="VARCHAR" />  <!-- 创建人 ， -->
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />  <!-- 创建时间 ， -->
+		<result column="df" property="df" jdbcType="VARCHAR" />  <!-- 状态 -->
+		<result column="org_id" property="orgId" jdbcType="INTEGER" />  <!--组织id -->
+		<result column="pid" property="pid" jdbcType="INTEGER" />  <!--pid -->
+	</resultMap>
+
+	<!-- 字段列表 -->
+	<sql id="Base_Column_List" >
+		id  <!--  -->
+		,account_id  <!-- 账套编码 ， -->
+		,in_out  <!-- 收入支出 ， ， -->
+		,category_level1_code  <!-- 一级分类编码 ， -->
+		,category_level1_name  <!-- 一级分类名称 ， -->
+		,category_level2_code  <!-- 二级分类编码 ， -->
+		,category_level2_name  <!-- 二级分类名称 ， -->
+		,category_code  <!-- 记账科目编码 ， -->
+		,category_name  <!-- 记账科目名称 ， -->
+		,note  <!-- 科目说明 ， -->
+		,creator  <!-- 创建人 ， -->
+		,create_time  <!-- 创建时间 ， -->
+		,df  <!-- 状态 -->
+		,org_id
+		,pid
+	</sql>
+
+	<!-- 常用的查询条件集合 -->
+	<sql id="Filter_Where">
+		<if test="express.containsKey('id') and express.id!=''"> and id = '${express.id}' </if>
+		<if test="express.containsKey('accountId') and express.accountId!=''"> and account_id = '${express.accountId}' </if>
+		<if test="express.containsKey('inout') and express.inout!=''"> and in_out = '${express.inout}' </if>
+		<if test="express.containsKey('categoryLevel1Code') and express.categoryLevel1Code!=''"> and category_level1_code = '${express.categoryLevel1Code}' </if>
+		<if test="express.containsKey('categoryLevel1Name') and express.categoryLevel1Name!=''"> and category_level1_name = '${express.categoryLevel1Name}' </if>
+		<if test="express.containsKey('categoryLevel2Code') and express.categoryLevel2Code!=''"> and category_level2_code = '${express.categoryLevel2Code}' </if>
+		<if test="express.containsKey('categoryLevel2Name') and express.categoryLevel2Name!=''"> and category_level2_name = '${express.categoryLevel2Name}' </if>
+		<if test="express.containsKey('categoryCode') and express.categoryCode!=''"> and category_code = '${express.categoryCode}' </if>
+		<if test="express.containsKey('categoryName') and express.categoryName!=''"> and category_name = '${express.categoryName}' </if>
+		<if test="express.containsKey('note') and express.note!=''"> and note = '${express.note}' </if>
+		<if test="express.containsKey('creator') and express.creator!=''"> and creator = '${express.creator}' </if>
+		<if test="express.containsKey('createTime') and express.createTime!=''"> and create_time = '${express.createTime}' </if>
+		<if test="express.containsKey('df') and express.df!=''"> and df = '${express.df}' </if>
+		<if test="express.containsKey('orgId') and express.orgId!=''"> and org_id = '${express.orgId}' </if>
+		<if test="express.containsKey('pid') and express.pid!=''"> and pid = '${express.pid}' </if>
+	</sql>
+
+	<!-- 保存单条记录 -->
+	<insert id="insert" parameterType="com.ikats.ams.entity.AccountCategoryBean" useGeneratedKeys="true" keyProperty="id">
+		insert into ams_account_category (
+		account_id
+		,in_out
+		,category_level1_code
+		,category_level1_name
+		,category_level2_code
+		,category_level2_name
+		,category_code
+		,category_name
+		,note
+		,creator
+		,create_time
+		,df
+		,org_id
+		,pid
+		)
+		values (
+		#{accountId,jdbcType=VARCHAR}
+		,#{inout,jdbcType=VARCHAR}
+		,#{categoryLevel1Code,jdbcType=VARCHAR}
+		,#{categoryLevel1Name,jdbcType=VARCHAR}
+		,#{categoryLevel2Code,jdbcType=VARCHAR}
+		,#{categoryLevel2Name,jdbcType=VARCHAR}
+		,#{categoryCode,jdbcType=VARCHAR}
+		,#{categoryName,jdbcType=VARCHAR}
+		,#{note,jdbcType=VARCHAR}
+		,#{creator,jdbcType=VARCHAR}
+		,now()
+		,'0'
+		,#{orgId,jdbcType=INTEGER}
+		,#{pid,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 根据ID更新记录 -->
+	<update id="update" parameterType="com.ikats.ams.entity.AccountCategoryBean">
+		update ams_account_category
+		<set>
+			<if test="accountId != null "> account_id = #{accountId,jdbcType=VARCHAR}, </if>
+			<if test="inout != null "> in_out = #{inout,jdbcType=VARCHAR}, </if>
+			<if test="categoryLevel1Code != null "> category_level1_code = #{categoryLevel1Code,jdbcType=VARCHAR}, </if>
+			<if test="categoryLevel1Name != null "> category_level1_name = #{categoryLevel1Name,jdbcType=VARCHAR}, </if>
+			<if test="categoryLevel2Code != null "> category_level2_code = #{categoryLevel2Code,jdbcType=VARCHAR}, </if>
+			<if test="categoryLevel2Name != null "> category_level2_name = #{categoryLevel2Name,jdbcType=VARCHAR}, </if>
+			<if test="categoryCode != null "> category_code = #{categoryCode,jdbcType=VARCHAR}, </if>
+			<if test="categoryName != null "> category_name = #{categoryName,jdbcType=VARCHAR}, </if>
+			<if test="note != null "> note = #{note,jdbcType=VARCHAR}, </if>
+			<if test="creator != null "> creator = #{creator,jdbcType=VARCHAR}, </if>
+			<if test="createTime != null "> create_time = #{createTime,jdbcType=TIMESTAMP}, </if>
+			<if test="df != null "> df = #{df,jdbcType=VARCHAR}, </if>
+			<if test="orgId != null "> org_id = #{orgId,jdbcType=INTEGER}, </if>
+			<if test="pid != null "> pid = #{pid,jdbcType=INTEGER}, </if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID删除记录 -->
+	<update id="delete" parameterType="java.lang.Long">
+		update  ams_account_category set  df='1'
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID查询记录 -->
+	<select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select <include refid="Base_Column_List" />
+		from ams_account_category
+		where df='0' and id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="pageByQuery" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from ams_account_category
+		where df='0'
+		<include refid="Filter_Where" />
+		order by id desc
+		  limit ${pageSize} offset ${pageNum}
+	</select>
+
+	<!-- 查询记录数量 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="com.ikats.ams.entity.query.AccountCategoryQuery">
+		select count(1)
+		from ams_account_category
+		WHERE df='0'
+		<include refid="Filter_Where" />
+	</select>
+
+	<!-- 条件查询不分页 -->
+	<select id="selectByQuery" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from ams_account_category
+		where df='0'
+		<include refid="Filter_Where" />
+		order by id desc
+	</select>
+</mapper>

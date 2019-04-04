@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.SalesMapper" >
+
+    <!-- 字段实体关系映射 -->
+    <resultMap id="BaseResultMap" type="com.ikats.ams.entity.SalesBean" >
+        <id column="id" property="id" jdbcType="BIGINT" />  <!-- 主键 -->
+        <result column="country_code" property="countryCode" jdbcType="VARCHAR" />  <!--国家码   -->
+        <result column="t_code" property="tCode" jdbcType="VARCHAR" />  <!--国家简写 -->
+        <result column="country_name" property="countryName" jdbcType="VARCHAR" />  <!--国家  -->
+        <result column="english_name" property="englishName" jdbcType="VARCHAR" />  <!-- 国家的英文名称-->
+    </resultMap>
+
+    <!-- 字段列表 -->
+    <sql id="Base_Column_List" >
+        id
+        ,country_code
+        ,t_code
+        ,country_name
+        ,english_name
+    </sql>
+
+    <!-- 常用的查询条件集合 -->
+    <sql id="Filter_Where">
+        <if test="express.containsKey('id') and express.id!=''"> and id = '${express.id}' </if>
+        <if test="express.containsKey('countryCode') and express.countryCode!=''"> and country_code = '${express.countryCode}' </if>
+        <if test="express.containsKey('tCode') and express.tCode!=''"> and t_code = '${express.tCode}' </if>
+        <if test="express.containsKey('countryName') and express.countryName!=''"> and country_name = '${express.countryName}' </if>
+        <if test="express.containsKey('englishName') and express.englishName!=''"> and english_name = '${express.englishName}' </if>
+    </sql>
+
+    <!-- 根据ID查询 -->
+    <select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="Base_Column_List" />
+        from cms_sales
+        where 1=1 and id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据条件查询所有记录 -->
+    <select id="selectAllByQuery" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from cms_sales
+        where 1=1
+    </select>
+
+</mapper>

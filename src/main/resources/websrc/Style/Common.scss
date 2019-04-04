@@ -1,0 +1,122 @@
+
+@import url('http://at.alicdn.com/t/font_382311_jd67uox1l8ggmn29.css');
+
+#app{
+  width:100%;
+}
+//card样式
+.ant-card{
+  border-radius:10px!important;
+}
+.ant-card-head{
+  background: #e1e8ee!important;
+}
+
+.ant-card-head-title{
+  font-size: 16px!important;
+  color: #1b7ae2!important;
+}
+.ant-calendar-picker {
+  position: relative;
+  display: block!important;
+  outline: none;
+  font-size: 12px;
+  transition: opacity 0.3s;
+}
+.ant-card-body {
+  padding: 10px!important;
+}
+.ant-form-item {
+  margin-bottom: 10px!important;
+}
+
+/*common.css*/
+.colLeft{
+  text-align:left;
+  color:#999
+}
+.colRight{
+  text-align:right
+}
+.colHidden{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.colPadding{
+  padding-top: 10px!important;
+  padding-left: 5px!important;
+  padding-right: 5px!important;
+}
+.colCenter{
+  text-align:center
+}
+.rowBottom{
+  padding-bottom: 6px
+}
+
+.TranStyle2{
+  padding:10px 0!important;
+  text-align:center!important;
+}
+.TranStyle2:hover{
+  background-color: #E7F4FB;
+}
+
+.TranStyle2:nth-child(2n+1){
+  background-color: #f2f2f2;
+}
+.TranStyle2:nth-child(2n+1):hover{
+  background-color: #E7F4FB;
+}
+
+.hStyle{
+  text-align: center;
+  font-size: 18px;
+  color: rgb(80, 172, 226);
+  margin: 15px 0 10px 0;
+}
+.spanTitle{
+  color: #333;
+}
+.spanStyle{
+  color: #768194;
+}
+.breadcrumb{
+  line-height:35px ;
+  padding-left: 20px;
+}
+.btn{
+  margin-right: 10px;
+  //border: none!important;
+  width:100px;
+}
+.account{
+  margin:0 !important;
+  padding:5px 0;
+}
+.account label{
+  color:#fff !important;
+}
+.ant-form-item-label label{
+  font-weight: inherit;
+}
+.purple-btn{
+  background:#8F86F1!important;
+  border:none!important;
+}
+.red-btn{
+  background:#f04134!important;
+  border:none!important;
+}
+.purple-icon{
+  color:#736AD5;
+}
+.yellow-icon{
+  color:#FFCC00
+}
+.breadcrumb{
+  line-height: 42px;
+}
+
+

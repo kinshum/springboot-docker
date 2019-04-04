@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.ServiceMapper" >
+
+	<!-- 服务表 -->
+
+	<!-- 字段实体关系映射 -->
+	<resultMap id="BaseResultMap" type="com.ikats.ams.entity.ServiceBean" >
+		<id column="id" property="id" jdbcType="BIGINT" />  <!--  -->
+		<result column="org_id" property="orgId" jdbcType="INTEGER" />  <!-- 组织id -->
+		<result column="service_id" property="serviceId" jdbcType="INTEGER" />  <!-- 服务id -->
+		<result column="service_cname" property="serviceCname" jdbcType="VARCHAR" />  <!-- 中文名 -->
+		<result column="service_ename" property="serviceEname" jdbcType="VARCHAR" />  <!-- 英文名 -->
+		<result column="admin" property="admin" jdbcType="VARCHAR" />  <!-- Admin -->
+		<result column="service_type" property="serviceType" jdbcType="VARCHAR" />  <!-- 服务类型 -->
+		<result column="creator" property="creator" jdbcType="VARCHAR" />  <!-- 创建人 -->
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />  <!-- 创建时间 -->
+		<result column="df" property="df" jdbcType="VARCHAR" />   <!--删除的状态[0正常][1是删除]  -->
+		<result column="org_code" property="orgCode" jdbcType="VARCHAR" />  <!-- 组织编码 -->
+	</resultMap>
+
+	<!-- 字段列表 -->
+	<sql id="Base_Column_List" >
+		id  <!--  -->
+		,org_id  <!-- 组织id -->
+		,service_id  <!-- 服务id -->
+		,service_cname  <!-- 中文名 -->
+		,service_ename  <!-- 英文名 -->
+		,admin  <!-- Admin -->
+		,service_type  <!-- 服务类型 -->
+		,creator  <!-- 创建人 -->
+		,create_time  <!-- 创建时间 -->
+		,org_code	<!-- 组织编码 -->
+	</sql>
+
+	<!-- 常用的查询条件集合 -->
+	<sql id="Filter_Where">
+		<if test="express.containsKey('id') and express.id!=''"> and id = '${express.id}' </if>
+		<if test="express.containsKey('orgId') and express.orgId!=''"> and org_id = '${express.orgId}' </if>
+		<if test="express.containsKey('serviceId') and express.serviceId!=''"> and service_id = '${express.serviceId}' </if>
+		<if test="express.containsKey('serviceCname') and express.serviceCname!=''"> and service_cname = '${express.serviceCname}' </if>
+		<if test="express.containsKey('serviceEname') and express.serviceEname!=''"> and service_ename = '${express.serviceEname}' </if>
+		<if test="express.containsKey('admin') and express.admin!=''"> and admin = '${express.admin}' </if>
+		<if test="express.containsKey('serviceType') and express.serviceType!=''"> and service_type = '${express.serviceType}' </if>
+		<if test="express.containsKey('creator') and express.creator!=''"> and creator = '${express.creator}' </if>
+		<if test="express.containsKey('createTime') and express.createTime!=''"> and create_time = '${express.createTime}' </if>
+		<if test="express.containsKey('orgCode') and express.orgCode!=''"> and create_time = '${express.orgCode}' </if>
+	</sql>
+
+	<!-- 保存单条记录 -->
+	<insert id="insert" parameterType="com.ikats.ams.entity.ServiceBean" useGeneratedKeys="true" keyProperty="id">
+		insert into cms_service (
+		org_id
+		,service_id
+		,service_cname
+		,service_ename
+		,admin
+		,service_type
+		,creator
+		,create_time
+		,df
+		,org_code
+		)
+		values (
+		#{orgId,jdbcType=INTEGER}
+		,#{serviceId,jdbcType=INTEGER}
+		,#{serviceCname,jdbcType=VARCHAR}
+		,#{serviceEname,jdbcType=VARCHAR}
+		,#{admin,jdbcType=VARCHAR}
+		,#{serviceType,jdbcType=VARCHAR}
+		,#{creator,jdbcType=VARCHAR}
+		,now()
+		,'0'
+		,#{orgCode,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 根据ID更新记录 -->
+	<update id="update" parameterType="com.ikats.ams.entity.ServiceBean">
+		update cms_service
+		<set>
+			<if test="orgId != null "> org_id = #{orgId,jdbcType=INTEGER}, </if>
+			<if test="serviceId != null "> service_id = #{serviceId,jdbcType=INTEGER}, </if>
+			<if test="serviceCname != null "> service_cname = #{serviceCname,jdbcType=VARCHAR}, </if>
+			<if test="serviceEname != null "> service_ename = #{serviceEname,jdbcType=VARCHAR}, </if>
+			<if test="admin != null "> admin = #{admin,jdbcType=VARCHAR}, </if>
+			<if test="serviceType != null "> service_type = #{serviceType,jdbcType=VARCHAR}, </if>
+			<if test="creator != null "> creator = #{creator,jdbcType=VARCHAR}, </if>
+			<if test="createTime != null "> create_time = #{createTime,jdbcType=TIMESTAMP}, </if>
+			<if test="orgCode != null "> creator = #{orgCode,jdbcType=VARCHAR}, </if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID删除记录 -->
+	<update id="delete" parameterType="java.lang.Long">
+		update  cms_service set  df='1'
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID查询记录 -->
+	<select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select <include refid="Base_Column_List" />
+		from cms_service
+		where df='0' and id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 筛选记录 -->
+	<select id="selectByQuery" resultMap="BaseResultMap" parameterType="com.ikats.ams.entity.query.ServiceQuery">
+		select <include refid="Base_Column_List" />
+		from cms_service
+		where df='0'
+		<include refid="Filter_Where" />
+		order by id desc
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="pageByQuery" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from cms_service
+		WHERE df='0'
+		<include refid="Filter_Where" />
+		order by id desc
+		limit ${pageSize} offset ${pageNum}
+	</select>
+
+	<!-- 查询记录数量 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="com.ikats.ams.entity.query.ServiceQuery">
+		select count(1)
+		from cms_service
+		where df='0'
+		<if test="express">
+			<include refid="Filter_Where" />
+		</if>
+	</select>
+
+</mapper>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.BillMapper" >
+
+	<!-- 账单 -->
+
+	<!-- 字段实体关系映射 -->
+	<resultMap id="BaseResultMap" type="com.ikats.ams.entity.BillBean" >
+		<id column="id" property="id" jdbcType="BIGINT" />  <!--  -->
+		<result column="bill_no" property="billNo" jdbcType="VARCHAR" />  <!-- 明细编码， -->
+		<result column="account_id" property="accountId" jdbcType="VARCHAR" />  <!-- 账套编码， -->
+		<result column="in_out" property="inout" jdbcType="VARCHAR" />  <!-- 收入支出 -->
+		<result column="settlement_object_id" property="settlementObjectId" jdbcType="VARCHAR" />  <!-- 结算对象编码， -->
+		<result column="settle_type" property="settleType" jdbcType="VARCHAR" />  <!-- 结算类型 -->
+		<result column="total_income" property="totalIncome" jdbcType="NUMERIC" />  <!-- 合计收入， -->
+		<result column="total_outcome" property="totalOutcome" jdbcType="NUMERIC" />  <!-- 合计支出， -->
+		<result column="amount" property="amount" jdbcType="NUMERIC" />  <!-- 账单金额， -->
+		<result column="currency" property="currency" jdbcType="VARCHAR" />  <!-- 账单币种， -->
+		<result column="bill_time" property="billTime" jdbcType="TIMESTAMP" />  <!-- 账单时间， -->
+		<result column="status" property="status" jdbcType="INTEGER" />  <!-- 明细状态 -->
+		<result column="creator" property="creator" jdbcType="VARCHAR" />  <!-- 创建人， -->
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>  <!-- 创建时间， -->
+		<result column="modified_by" property="modifiedBy" jdbcType="VARCHAR" />  <!-- 修改人， -->
+		<result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />  <!-- 修改时间， -->
+		<result column="auditor" property="auditor" jdbcType="VARCHAR" />  <!-- 审批人， -->
+		<result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />  <!-- 审批时间， -->
+		<result column="invoice_time" property="invoiceTime" jdbcType="TIMESTAMP" />  <!-- 开票时间， -->
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />  <!-- 支付时间， -->
+		<result column="note" property="note" jdbcType="VARCHAR" />  <!-- 备注， -->
+		<result column="attachement" property="attachement" jdbcType="VARCHAR" />  <!-- 附件， -->
+		<result column="org_id" property="orgId" jdbcType="INTEGER" />  <!-- 组织id -->
+		<result column="df" property="df" jdbcType="VARCHAR" />  <!-- 状态 -->
+		<result column="invoice_no" property="invoiceNo" jdbcType="VARCHAR" />  <!-- 发票号 -->
+		<result column="settlement_object_name" property="settlementObjectName" jdbcType="VARCHAR" />  <!-- 结算对象中文名 -->
+		<result column="invoice_other_no" property="invoiceOtherNo" jdbcType="VARCHAR" />  <!-- 发票2号 -->
+	</resultMap>
+
+	<!-- 字段列表 -->
+	<sql id="Base_Column_List" >
+		id  <!--  -->
+		,bill_no  <!-- 明细编码， -->
+		,account_id  <!-- 账套编码， -->
+		,in_out  <!-- 收入支出 -->
+		,settlement_object_id  <!-- 结算对象编码， -->
+		,settle_type  <!-- 结算类型 -->
+		,total_income  <!-- 合计收入， -->
+		,total_outcome  <!-- 合计支出， -->
+		,amount  <!-- 账单金额， -->
+		,currency  <!-- 账单币种， -->
+		,bill_time  <!-- 账单时间， -->
+		,status  <!-- 明细状态 -->
+		,creator  <!-- 创建人， -->
+		,create_time  <!-- 创建时间， -->
+		,modified_by  <!-- 修改人， -->
+		,modify_time  <!-- 修改时间， -->
+		,auditor  <!-- 审批人， -->
+		,audit_time  <!-- 审批时间， -->
+		,invoice_time  <!-- 开票时间， -->
+		,pay_time  <!-- 支付时间， -->
+		,note  <!-- 备注， -->
+		,attachement  <!-- 附件， -->
+		,org_id  <!-- 组织id -->
+		,df  <!-- 状态 -->
+		,invoice_no  <!-- 发票号 -->
+		,settlement_object_name
+		,invoice_other_no
+	</sql>
+
+	<!-- 常用的查询条件集合 -->
+	<sql id="Filter_Where">
+		<if test="express.containsKey('id') and express.id!=''"> and id = '${express.id}' </if>
+		<if test="express.containsKey('billNo') and express.billNo!=''"> and bill_no = '${express.billNo}' </if>
+		<if test="express.containsKey('accountId') and express.accountId!=''"> and account_id = '${express.accountId}' </if>
+		<if test="express.containsKey('inout') and express.inout!=''"> and in_out = '${express.inout}' </if>
+		<if test="express.containsKey('settlementObjectId') and express.settlementObjectId!=''"> and settlement_object_id = '${express.settlementObjectId}' </if>
+		<if test="express.containsKey('settleType') and express.settleType!=''"> and settle_type = '${express.settleType}' </if>
+		<if test="express.containsKey('totalIncome') and express.totalIncome!=''"> and total_income = '${express.totalIncome}' </if>
+		<if test="express.containsKey('totalOutcome') and express.totalOutcome!=''"> and total_outcome = '${express.totalOutcome}' </if>
+		<if test="express.containsKey('amount') and express.amount!=''"> and amount = '${express.amount}' </if>
+		<if test="express.containsKey('currency') and express.currency!=''"> and currency = '${express.currency}' </if>
+		<if test="express.containsKey('billTime') and express.billTime!=''"> and bill_time = '${express.billTime}' </if>
+		<if test="express.containsKey('status') and express.status!=''"> and status = '${express.status}' </if>
+		<if test="express.containsKey('confirmAfter') and express.confirmAfter!=''"> and status &gt;= '${express.confirmAfter}' </if>
+		<if test="express.containsKey('creator') and express.creator!=''"> and creator = '${express.creator}' </if>
+		<if test="express.containsKey('createTime') and express.createTime!=''  and express.createTime!=null"> and create_time &gt;= '${express.createTime}' </if>
+		<if test="express.containsKey('createTimeEnd') and express.createTimeEnd!=''  and express.createTimeEnd!=null"> and create_time &lt;= '${express.createTimeEnd}' </if>
+		<if test="express.containsKey('modifiedBy') and express.modifiedBy!=''"> and modified_by = '${express.modifiedBy}' </if>
+		<if test="express.containsKey('modifyTime') and express.modifyTime!=''"> and modify_time = '${express.modifyTime}' </if>
+		<if test="express.containsKey('auditor') and express.auditor!=''"> and auditor = '${express.auditor}' </if>
+		<if test="express.containsKey('auditTime') and express.auditTime!=''"> and audit_time = '${express.auditTime}' </if>
+		<if test="express.containsKey('invoiceTime') and express.invoiceTime!=''"> and invoice_time = '${express.invoiceTime}' </if>
+		<if test="express.containsKey('payTime') and express.payTime!=''"> and pay_time = '${express.payTime}' </if>
+		<if test="express.containsKey('note') and express.note!=''"> and note = '${express.note}' </if>
+		<if test="express.containsKey('attachement') and express.attachement!=''"> and attachement = '${express.attachement}' </if>
+		<if test="express.containsKey('orgId') and express.orgId!=''"> and org_id = '${express.orgId}' </if>
+		<if test="express.containsKey('df') and express.df!=''"> and df = '${express.df}' </if>
+		<if test="express.containsKey('invoiceNo') and express.invoiceNo!=''"> and invoice_no = '${express.invoiceNo}' </if>
+		<if test="express.containsKey('settlementObjectName') and express.settlementObjectName!=''"> and settlement_object_name = '${express.settlementObjectName}' </if>
+		<if test="express.containsKey('invoiceOtherNo') and express.invoiceOtherNo!=''"> and invoice_other_no = '${express.invoiceOtherNo}' </if>
+	</sql>
+
+	<!-- 保存单条记录 -->
+	<insert id="insert" parameterType="com.ikats.ams.entity.BillBean" useGeneratedKeys="true" keyProperty="id">
+		insert into ams_bill (
+		bill_no
+		,account_id
+		,in_out
+		,settlement_object_id
+		,settle_type
+		,total_income
+		,total_outcome
+		,amount
+		,currency
+		,bill_time
+		,status
+		,creator
+		,create_time
+		,modified_by
+		,modify_time
+		,auditor
+		,audit_time
+		,invoice_time
+		,pay_time
+		,note
+		,attachement
+		,org_id
+		,df
+		,invoice_no
+		,settlement_object_name
+		,invoice_other_no
+		)
+		values (
+		#{billNo,jdbcType=VARCHAR}
+		,#{accountId,jdbcType=VARCHAR}
+		,#{inout,jdbcType=VARCHAR}
+		,#{settlementObjectId,jdbcType=VARCHAR}
+		,#{settleType,jdbcType=VARCHAR}
+		,#{totalIncome,jdbcType=NUMERIC}
+		,#{totalOutcome,jdbcType=NUMERIC}
+		,#{amount,jdbcType=NUMERIC}
+		,#{currency,jdbcType=VARCHAR}
+		,#{billTime,jdbcType=TIMESTAMP}
+		,'1'
+		,#{creator,jdbcType=VARCHAR}
+		,now()
+		,#{modifiedBy,jdbcType=VARCHAR}
+		,#{modifyTime,jdbcType=TIMESTAMP}
+		,#{auditor,jdbcType=VARCHAR}
+		,#{auditTime,jdbcType=TIMESTAMP}
+		,#{invoiceTime,jdbcType=TIMESTAMP}
+		,#{payTime,jdbcType=TIMESTAMP}
+		,#{note,jdbcType=VARCHAR}
+		,#{attachement,jdbcType=VARCHAR}
+		,#{orgId,jdbcType=INTEGER}
+		,'0'
+		,#{invoiceNo,jdbcType=VARCHAR}
+		,#{settlementObjectName,jdbcType=VARCHAR}
+		,#{invoiceOtherNo,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 根据ID更新记录 -->
+	<update id="update" parameterType="com.ikats.ams.entity.BillBean">
+		update ams_bill
+		<set>
+			<if test="billNo != null "> bill_no = #{billNo,jdbcType=VARCHAR}, </if>
+			<if test="accountId != null "> account_id = #{accountId,jdbcType=VARCHAR}, </if>
+			<if test="inout != null "> in_out = #{inout,jdbcType=VARCHAR}, </if>
+			<if test="settlementObjectId != null "> settlement_object_id = #{settlementObjectId,jdbcType=VARCHAR}, </if>
+			<if test="settleType != null "> settle_type = #{settleType,jdbcType=VARCHAR}, </if>
+			<if test="totalIncome != null "> total_income = #{totalIncome,jdbcType=NUMERIC}, </if>
+			<if test="totalOutcome != null "> total_outcome = #{totalOutcome,jdbcType=NUMERIC}, </if>
+			<if test="amount != null "> amount = #{amount,jdbcType=NUMERIC}, </if>
+			<if test="currency != null "> currency = #{currency,jdbcType=VARCHAR}, </if>
+			<if test="billTime != null "> bill_time = #{billTime,jdbcType=TIMESTAMP}, </if>
+			<if test="status != null "> status = #{status,jdbcType=INTEGER}, </if>
+			<if test="creator != null "> creator = #{creator,jdbcType=VARCHAR}, </if>
+			<if test="createTime != null "> create_time = #{createTime,jdbcType=TIMESTAMP}, </if>
+			<if test="modifiedBy != null "> modified_by = #{modifiedBy,jdbcType=VARCHAR}, </if>
+			modify_time = now(),
+			<if test="auditor != null "> auditor = #{auditor,jdbcType=VARCHAR}, </if>
+			<if test="auditTime != null "> audit_time = #{auditTime,jdbcType=TIMESTAMP}, </if>
+			<if test="invoiceTime != null "> invoice_time = #{invoiceTime,jdbcType=TIMESTAMP}, </if>
+			<if test="payTime != null "> pay_time = #{payTime,jdbcType=TIMESTAMP}, </if>
+			<if test="note != null "> note = #{note,jdbcType=VARCHAR}, </if>
+			<if test="attachement != null "> attachement = #{attachement,jdbcType=VARCHAR}, </if>
+			<if test="orgId != null "> org_id = #{orgId,jdbcType=INTEGER}, </if>
+			<if test="df != null "> df = #{df,jdbcType=VARCHAR}, </if>
+			<if test="invoiceNo != null "> invoice_no = #{invoiceNo,jdbcType=VARCHAR}, </if>
+			<if test="settlementObjectName != null "> settlement_object_name = #{settlementObjectName,jdbcType=VARCHAR}, </if>
+			<if test="invoiceOtherNo != null "> invoice_other_no = #{invoiceOtherNo,jdbcType=VARCHAR}, </if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 审批 -->
+	<update id="updateStatus"  parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			update ams_bill
+			<set>
+				<if test="item.auditor != null "> auditor = #{item.auditor,jdbcType=VARCHAR}, </if>
+				status = '2',
+				audit_time = now(),
+			</set>
+			where id = #{item.id,jdbcType=BIGINT}
+		</foreach>
+	</update>
+
+	<!-- 开票 -->
+	<update id="invoiced" parameterType="com.ikats.ams.entity.BillBean">
+			update ams_bill
+			<set>
+				<if test="status != null "> status = #{status,jdbcType=INTEGER}, </if>
+				<if test="invoiceNo != null "> invoice_no = #{invoiceNo,jdbcType=VARCHAR}, </if>
+				<if test="invoiceOtherNo != null "> invoice_other_no = #{invoiceOtherNo,jdbcType=VARCHAR}, </if>
+				invoice_time =now(),
+			</set>
+			where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 结款 -->
+	<update id="paid" parameterType="com.ikats.ams.entity.BillBean">
+		update ams_bill
+		<set>
+			<if test="status != null "> status = #{status,jdbcType=INTEGER}, </if>
+			pay_time =now(),
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID删除记录 -->
+	<update id="delete" parameterType="java.lang.Long">
+		update  ams_bill set  df='1'
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID查询记录 -->
+	<select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select <include refid="Base_Column_List" />
+		from ams_bill
+		where df='0' and id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="pageByQuery" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from ams_bill
+		where df='0' <include refid="Filter_Where" />
+		order by id desc
+		limit ${pageSize} offset ${pageNum}
+	</select>
+
+	<!-- 查询记录数量 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="com.ikats.ams.entity.BillBean">
+		select count(1)
+		from ams_bill
+		where df='0'
+		<include refid="Filter_Where"/>
+	</select>
+
+</mapper>

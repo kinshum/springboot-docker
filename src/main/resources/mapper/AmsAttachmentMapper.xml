@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.AmsAttachmentMapper" >
+
+    <!-- 附件管理表 -->
+
+    <!-- 字段实体关系映射 -->
+    <resultMap id="BaseResultMap" type="com.ikats.ams.entity.AmsAttachmentBean" >
+        <id column="id" property="id" jdbcType="BIGINT" />  <!--  -->
+        <result column="attachment_url" property="attachmentUrl" jdbcType="VARCHAR" />  <!-- 附件地址 -->
+        <result column="picture_name" property="pictureName" jdbcType="VARCHAR" />  <!-- 附件名称 -->
+        <result column="accountitem_id" property="accountitemId" jdbcType="INTEGER" />  <!-- 记账明细id -->
+        <result column="bill_id" property="billId" jdbcType="INTEGER" />  <!-- 对账单id， -->
+    </resultMap>
+
+    <!-- 字段列表 -->
+    <sql id="Base_Column_List" >
+        id  <!--  -->
+        ,attachment_url  <!-- 附件地址 -->
+        ,picture_name  <!-- 附件名称 -->
+        ,accountitem_id  <!-- 记账明细id -->
+        ,bill_id  <!-- 对账单id， -->
+    </sql>
+
+    <!-- 常用的查询条件集合 -->
+    <sql id="Filter_Where">
+        <if test="express.containsKey('id') and express.id!=''"> and id = '${express.id}' </if>
+        <if test="express.containsKey('attachmentUrl') and express.attachmentUrl!=''"> and attachment_url = '${express.attachmentUrl}' </if>
+        <if test="express.containsKey('pictureName') and express.pictureName!=''"> and picture_name = '${express.pictureName}' </if>
+        <if test="express.containsKey('accountitemId') and express.accountitemId!=''"> and accountitem_id = '${express.accountitemId}' </if>
+        <if test="express.containsKey('billId') and express.billId!=''"> and bill_id = '${express.billId}' </if>
+    </sql>
+
+    <!-- 保存单条记录 -->
+    <insert id="insert" parameterType="com.ikats.ams.entity.AmsAttachmentBean" useGeneratedKeys="true" keyProperty="id">
+       	insert into ams_attachment (
+ 	    	 attachment_url
+ 	    	,picture_name
+ 	    	,accountitem_id
+ 	    	,bill_id
+		)
+		values (
+		#{attachmentUrl,jdbcType=VARCHAR}
+		,#{pictureName,jdbcType=VARCHAR}
+		,#{accountitemId,jdbcType=INTEGER}
+		,#{billId,jdbcType=INTEGER}
+		)
+    </insert>
+
+
+    <!-- 根据ID更新记录 -->
+    <update id="update" parameterType="com.ikats.ams.entity.AmsAttachmentBean">
+        update ams_attachment
+        <set>
+            <if test="attachmentUrl != null "> attachment_url = #{attachmentUrl,jdbcType=VARCHAR}, </if>
+            <if test="pictureName != null "> picture_name = #{pictureName,jdbcType=VARCHAR}, </if>
+            <if test="accountitemId != null "> accountitem_id = #{accountitemId,jdbcType=INTEGER}, </if>
+            <if test="billId != null "> bill_id = #{billId,jdbcType=INTEGER}, </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID删除记录 -->
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from ams_attachment
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 根据收支id删除记录 -->
+    <delete id="deleteItem" parameterType="java.lang.Integer">
+        delete from ams_attachment
+        where accountitem_id = #{accountitemId,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 根据账单id删除记录 -->
+    <delete id="deleteBill" parameterType="java.lang.Integer">
+        delete from ams_attachment
+        where bill_id = #{billId,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 根据ID查询记录 -->
+    <select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="Base_Column_List" />
+        from ams_attachment
+        where 1=1 and id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据ItemID查询记录 -->
+    <select id="selectByItem" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="Base_Column_List" />
+        from ams_attachment
+        where 1=1 and accountitem_id = #{accountitemId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据billID查询记录 -->
+    <select id="selectByBill" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="Base_Column_List" />
+        from ams_attachment
+        where 1=1 and bill_id = #{billId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="pageByQuery" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from ams_attachment
+        where 1=1
+        <include refid="Filter_Where" />
+        order by id desc
+        limit ${pageSize} offset ${pageNum}
+    </select>
+
+	<!-- 查询记录数量 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="com.ikats.ams.entity.query.AmsAttachmentQuery">
+		select count(1)
+		from ams_attachment
+		WHERE
+		1=1
+		<include refid="Filter_Where" />
+	</select>
+
+</mapper>

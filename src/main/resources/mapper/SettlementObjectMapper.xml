@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.SettlementObjectMapper" >
+
+	<!-- 结算对象 -->
+
+	<!-- 字段实体关系映射 -->
+	<resultMap id="BaseResultMap" type="com.ikats.ams.entity.SettlementObjectBean" >
+		<id column="id" property="id" jdbcType="BIGINT" />  <!--  -->
+		<result column="account_id" property="accountId" jdbcType="VARCHAR" />  <!-- 账套编码 ， -->
+		<result column="settlement_object_id" property="settlementObjectId" jdbcType="VARCHAR" />  <!-- 结算对象ID ， ， -->
+		<result column="org_code" property="orgCode" jdbcType="VARCHAR" />  <!-- 结算对象组织编码 ， ， -->
+		<result column="org_cname" property="orgCname" jdbcType="VARCHAR" />  <!-- 结算对象中文名 ， -->
+		<result column="org_ename" property="orgEname" jdbcType="VARCHAR" />  <!-- 英文名 ， -->
+		<result column="org_shortname" property="orgShortname" jdbcType="VARCHAR" />  <!-- 简称 ， -->
+		<result column="country" property="country" jdbcType="VARCHAR" />  <!-- 所在国 ， -->
+		<result column="currency" property="currency" jdbcType="VARCHAR" />  <!-- 结算币种 ， -->
+		<result column="address" property="address" jdbcType="VARCHAR" />  <!-- 公司地址 ， -->
+		<result column="contact_person" property="contactPerson" jdbcType="VARCHAR" />  <!-- 联系人 ， -->
+		<result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />  <!-- 联系人电话 ， -->
+		<result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />  <!-- 银行账号 ， -->
+		<result column="bank_name" property="bankName" jdbcType="VARCHAR" />  <!-- 银行名称 ， -->
+		<result column="bank_address" property="bankAddress" jdbcType="VARCHAR" />  <!-- 银行地址 ， -->
+		<result column="settle_type" property="settleType" jdbcType="VARCHAR" />  <!-- 结算方式 ， -->
+		<result column="df" property="df" jdbcType="VARCHAR" />  <!-- 状态 -->
+		<result column="org_id" property="orgId" jdbcType="INTEGER" />  <!--组织id -->
+	</resultMap>
+
+	<!-- 字段列表 -->
+	<sql id="Base_Column_List" >
+		id  <!--  -->
+		,account_id  <!-- 账套编码 ， -->
+		,settlement_object_id  <!-- 结算对象ID ， ， -->
+		,org_code  <!-- 结算对象组织编码 ， ， -->
+		,org_cname  <!-- 结算对象中文名 ， -->
+		,org_ename  <!-- 英文名 ， -->
+		,org_shortname  <!-- 简称 ， -->
+		,country  <!-- 所在国 ， -->
+		,currency  <!-- 结算币种 ， -->
+		,address  <!-- 公司地址 ， -->
+		,contact_person  <!-- 联系人 ， -->
+		,contact_phone  <!-- 联系人电话 ， -->
+		,bank_account  <!-- 银行账号 ， -->
+		,bank_name  <!-- 银行名称 ， -->
+		,bank_address  <!-- 银行地址 ， -->
+		,settle_type  <!-- 结算方式 ， -->
+		,df  <!-- 状态 -->
+		,org_id
+	</sql>
+
+	<!-- 常用的查询条件集合 -->
+	<sql id="Filter_Where">
+		<if test="express.containsKey('id') and express.id!=''"> and id = '${express.id}' </if>
+		<if test="express.containsKey('accountId') and express.accountId!=''"> and account_id = '${express.accountId}' </if>
+		<if test="express.containsKey('settlementObjectId') and express.settlementObjectId!=''"> and settlement_object_id = '${express.settlementObjectId}' </if>
+		<if test="express.containsKey('orgCode') and express.orgCode!=''"> and org_code = '${express.orgCode}' </if>
+		<if test="express.containsKey('orgCname') and express.orgCname!=''"> and org_cname = '${express.orgCname}' </if>
+		<if test="express.containsKey('orgEname') and express.orgEname!=''"> and org_ename = '${express.orgEname}' </if>
+		<if test="express.containsKey('orgShortname') and express.orgShortname!=''"> and org_shortname = '${express.orgShortname}' </if>
+		<if test="express.containsKey('country') and express.country!=''"> and country = '${express.country}' </if>
+		<if test="express.containsKey('currency') and express.currency!=''"> and currency = '${express.currency}' </if>
+		<if test="express.containsKey('address') and express.address!=''"> and address = '${express.address}' </if>
+		<if test="express.containsKey('contactPerson') and express.contactPerson!=''"> and contact_person = '${express.contactPerson}' </if>
+		<if test="express.containsKey('contactPhone') and express.contactPhone!=''"> and contact_phone = '${express.contactPhone}' </if>
+		<if test="express.containsKey('bankAccount') and express.bankAccount!=''"> and bank_account = '${express.bankAccount}' </if>
+		<if test="express.containsKey('bankName') and express.bankName!=''"> and bank_name = '${express.bankName}' </if>
+		<if test="express.containsKey('bankAddress') and express.bankAddress!=''"> and bank_address = '${express.bankAddress}' </if>
+		<if test="express.containsKey('settleType') and express.settleType!=''"> and settle_type = '${express.settleType}' </if>
+		<if test="express.containsKey('df') and express.df!=''"> and df = '${express.df}' </if>
+		<if test="express.containsKey('orgId') and express.orgId!=''"> and org_id = '${express.orgId}' </if>
+	</sql>
+
+	<!-- 保存单条记录 -->
+	<insert id="insert" parameterType="com.ikats.ams.entity.SettlementObjectBean" useGeneratedKeys="true" keyProperty="id">
+		insert into ams_settlement_object (
+		account_id
+		,settlement_object_id
+		,org_code
+		,org_cname
+		,org_ename
+		,org_shortname
+		,country
+		,currency
+		,address
+		,contact_person
+		,contact_phone
+		,bank_account
+		,bank_name
+		,bank_address
+		,settle_type
+		,df
+		,org_id
+		)
+		values (
+		#{accountId,jdbcType=VARCHAR}
+		,#{settlementObjectId,jdbcType=VARCHAR}
+		,#{orgCode,jdbcType=VARCHAR}
+		,#{orgCname,jdbcType=VARCHAR}
+		,#{orgEname,jdbcType=VARCHAR}
+		,#{orgShortname,jdbcType=VARCHAR}
+		,#{country,jdbcType=VARCHAR}
+		,#{currency,jdbcType=VARCHAR}
+		,#{address,jdbcType=VARCHAR}
+		,#{contactPerson,jdbcType=VARCHAR}
+		,#{contactPhone,jdbcType=VARCHAR}
+		,#{bankAccount,jdbcType=VARCHAR}
+		,#{bankName,jdbcType=VARCHAR}
+		,#{bankAddress,jdbcType=VARCHAR}
+		,#{settleType,jdbcType=VARCHAR}
+		,'0'
+		,#{orgId,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 根据ID更新记录 -->
+	<update id="update" parameterType="com.ikats.ams.entity.SettlementObjectBean">
+		update ams_settlement_object
+		<set>
+			<if test="accountId != null "> account_id = #{accountId,jdbcType=VARCHAR}, </if>
+			<if test="settlementObjectId != null "> settlement_object_id = #{settlementObjectId,jdbcType=VARCHAR}, </if>
+			<if test="orgCode != null "> org_code = #{orgCode,jdbcType=VARCHAR}, </if>
+			<if test="orgCname != null "> org_cname = #{orgCname,jdbcType=VARCHAR}, </if>
+			<if test="orgEname != null "> org_ename = #{orgEname,jdbcType=VARCHAR}, </if>
+			<if test="orgShortname != null "> org_shortname = #{orgShortname,jdbcType=VARCHAR}, </if>
+			<if test="country != null "> country = #{country,jdbcType=VARCHAR}, </if>
+			<if test="currency != null "> currency = #{currency,jdbcType=VARCHAR}, </if>
+			<if test="address != null "> address = #{address,jdbcType=VARCHAR}, </if>
+			<if test="contactPerson != null "> contact_person = #{contactPerson,jdbcType=VARCHAR}, </if>
+			<if test="contactPhone != null "> contact_phone = #{contactPhone,jdbcType=VARCHAR}, </if>
+			<if test="bankAccount != null "> bank_account = #{bankAccount,jdbcType=VARCHAR}, </if>
+			<if test="bankName != null "> bank_name = #{bankName,jdbcType=VARCHAR}, </if>
+			<if test="bankAddress != null "> bank_address = #{bankAddress,jdbcType=VARCHAR}, </if>
+			<if test="settleType != null "> settle_type = #{settleType,jdbcType=VARCHAR}, </if>
+			<if test="df != null "> df = #{df,jdbcType=VARCHAR}, </if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID删除记录 -->
+	<update id="delete" parameterType="java.lang.Long">
+		update  ams_settlement_object set  df='1'
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID查询记录 -->
+	<select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select <include refid="Base_Column_List" />
+		from ams_settlement_object
+		where df='0' and id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="pageByQuery" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from ams_settlement_object
+		where df='0'
+		<include refid="Filter_Where" />
+		order by id desc
+		limit ${pageSize} offset ${pageNum}
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="selectByQuery" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from ams_settlement_object
+		where df='0'
+		<include refid="Filter_Where" />
+		order by id desc
+	</select>
+
+
+
+	<!-- 查询记录数量 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="com.ikats.ams.entity.query.SettlementObjectQuery">
+		select count(1)
+		from ams_settlement_object
+		WHERE df='0'
+		<include refid="Filter_Where" />
+	</select>
+
+</mapper>

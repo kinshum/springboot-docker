@@ -1,0 +1,62 @@
+#dev
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://mysqldb:3306/chigoose_ams?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: root
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,log4j
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  http:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  mvc:
+    servlet:
+      load-on-startup: 1
+#redis
+  redis:
+    host: redisdb
+    password: ikats903
+    port: 6379
+    pool:
+      max-idle: 100
+      min-idle: 1
+      max-active: 1000
+      max-wait: -1
+mybatis:
+  type-aliases-package: com.ikats.ams.model
+  mapper-locations: classpath:/mapper/*
+  configuration:
+    mapUnderscoreToCamelCase: true
+files:
+  path: ${file-path:d:/files}
+logging:
+  config: classpath:logback-admin.xml
+log:
+  level:
+    root: info
+    my: debug
+  file: logs/ams-log.log
+  maxsize: 30MB
+token:
+  expire:
+    seconds: 86400
+server:
+  port: 8082

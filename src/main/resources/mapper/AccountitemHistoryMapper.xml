@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ikats.ams.dao.AccountitemHistoryMapper" >
+
+	<!-- 记账明细历史版本 -->
+
+	<!-- 字段实体关系映射 -->
+	<resultMap id="BaseResultMap" type="com.ikats.ams.entity.AccountitemBean" >
+		<id column="id" property="id" jdbcType="BIGINT" />  <!--  -->
+		<result column="item_id" property="itemId" jdbcType="VARCHAR" />  <!-- 明细编码 ， -->
+		<result column="account_id" property="accountId" jdbcType="VARCHAR"/>  <!-- 账套编码 -->
+		<result column="category_level1_code" property="categoryLevel1Code" jdbcType="VARCHAR" />  <!-- 一级分类编码 -->
+		<result column="category_level2_code" property="categoryLevel2Code" jdbcType="VARCHAR" />  <!-- 二级分类编码 -->
+		<result column="category_code" property="categoryCode" jdbcType="VARCHAR" />  <!-- 记账科目编码 -->
+		<result column="settlement_object_id" property="settlementObjectId" jdbcType="VARCHAR" />  <!-- 结算对象编码 -->
+		<result column="settle_type" property="settleType" jdbcType="VARCHAR" />  <!-- 结算类型 -->
+		<result column="account_brief" property="accountBrief" jdbcType="VARCHAR" />  <!-- 交易简称 -->
+		<result column="amount" property="amount" jdbcType="NUMERIC" />  <!-- 交易金额 -->
+		<result column="currency" property="currency" jdbcType="VARCHAR" />  <!-- 交易币种 -->
+		<result column="exchange_rate" property="exchangeRate" jdbcType="NUMERIC" />  <!-- 汇率 -->
+		<result column="settelment_amount" property="settelmentAmount" jdbcType="NUMERIC" />  <!-- 结算金额 -->
+		<result column="creator" property="creator" jdbcType="VARCHAR" />  <!-- 创建人 -->
+		<result column="modified_by" property="modifiedBy" jdbcType="VARCHAR" />  <!-- 修改人 -->
+		<result column="auditor" property="auditor" jdbcType="VARCHAR" />  <!-- 审批人 -->
+		<result column="ref_no" property="refNo" jdbcType="VARCHAR" />  <!-- 关联单号 -->
+		<result column="bill_no" property="billNo" jdbcType="VARCHAR" />  <!-- 账单号 -->
+		<result column="note" property="note" jdbcType="VARCHAR" />  <!-- 备注 -->
+		<result column="attachement" property="attachement" jdbcType="VARCHAR" />  <!-- 附件 -->
+		<result column="df" property="df" jdbcType="VARCHAR" />  <!-- 状态 -->
+		<result column="status" property="status" jdbcType="INTEGER" />  <!-- 明细状态 -->
+		<result column="in_out" property="inout" jdbcType="VARCHAR" />  <!-- 收入支出 -->
+		<result column="org_id" property="orgId" jdbcType="INTEGER" />  <!-- 组织id -->
+		<result column="trade_time" property="tradeTime" jdbcType="TIMESTAMP" />  <!-- 交易时间 -->
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />  <!-- 创建时间 -->
+		<result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />  <!-- 修改时间 -->
+		<result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />  <!-- 审批时间 -->
+		<result column="my_exchange_rate" property="myExchangeRate" jdbcType="NUMERIC" />  <!-- 自定义的汇率 -->
+		<result column="unit_price" property="unitPrice" jdbcType="NUMERIC" />  <!-- 交易单价 -->
+		<result column="trade_unit" property="tradeUnit" jdbcType="VARCHAR" />  <!-- 交易单位 -->
+		<result column="count" property="count" jdbcType="NUMERIC" />  <!-- 交易数量 -->
+		<result column="version" property="version" jdbcType="VARCHAR" />  <!-- 版本号 -->
+		<result column="vc_id" property="vcId" jdbcType="INTEGER" />  <!-- 关联记账明细的id -->
+		<result column="business_type" property="businessType" jdbcType="VARCHAR" />  <!-- 业务类型 -->
+		<result column="account_currency" property="accountCurrency" jdbcType="VARCHAR" />  <!-- 账套币种 ， -->
+		<result column="settlement_currency" property="settlementCurrency" jdbcType="VARCHAR" />  <!-- 账套币种 ， -->
+		<result column="settlement_object_name" property="settlementObjectName" jdbcType="VARCHAR" />  <!-- 结算对象中文名 -->
+		<result column="category_level1_name" property="categoryLevel1Name" jdbcType="VARCHAR" />  <!-- 费用类别 -->
+		<result column="category_level2_name" property="categoryLevel2Name" jdbcType="VARCHAR" />  <!-- 费用明细 -->
+	</resultMap>
+
+	<!-- 字段列表 -->
+	<sql id="Base_Column_List" >
+		id  <!--  -->
+		,item_id  <!-- 明细编码 -->
+		,account_id  <!-- 账套编码 -->
+		,category_level1_code  <!-- 一级分类编码 -->
+		,category_level2_code  <!-- 二级分类编码 -->
+		,category_code  <!-- 记账科目编码 -->
+		,settlement_object_id  <!-- 结算对象编码 -->
+		,settle_type  <!-- 结算类型 -->
+		,account_brief  <!-- 交易简称 -->
+		,amount  <!-- 交易金额 -->
+		,currency  <!-- 交易币种 -->
+		,exchange_rate  <!-- 汇率 -->
+		,settelment_amount  <!-- 结算金额 -->
+		,creator  <!-- 创建人 -->
+		,modified_by  <!-- 修改人 -->
+		,auditor  <!-- 审批人 -->
+		,ref_no  <!-- 关联单号 -->
+		,bill_no  <!-- 账单号 -->
+		,note  <!-- 备注 -->
+		,attachement  <!-- 附件 -->
+		,df  <!-- 状态 -->
+		,status  <!-- 明细状态 -->
+		,in_out  <!-- 收入支出 -->
+		,org_id  <!-- 组织id -->
+		,trade_time  <!-- 交易时间 -->
+		,create_time  <!-- 创建时间 -->
+		,modify_time  <!-- 修改时间 -->
+		,audit_time  <!-- 审批时间 -->
+		,my_exchange_rate  <!-- 自定义的汇率 -->
+		,unit_price  <!-- 交易单价 -->
+		,trade_unit  <!-- 交易单位 -->
+		,count  <!-- 交易数量 -->
+		,version  <!-- 版本号 -->
+		,vc_id  <!-- 关联记账明细的id -->
+		,business_type	<!-- 业务类型 -->
+		,account_currency
+		,settlement_currency
+		,settlement_object_name
+		,category_level1_name
+		,category_level2_name
+	</sql>
+
+	<!-- 常用的查询条件集合 -->
+	<sql id="Filter_Where">
+		<if test="express.containsKey('id') and express.id!=''"> and id = '${express.id}' </if>
+		<if test="express.containsKey('itemId') and express.itemId!=''"> and item_id = '${express.itemId}' </if>
+		<if test="express.containsKey('accountId') and express.accountId!=''"> and account_id = '${express.accountId}' </if>
+		<if test="express.containsKey('categoryLevel1Code') and express.categoryLevel1Code!=''"> and category_level1_code = '${express.categoryLevel1Code}' </if>
+		<if test="express.containsKey('categoryLevel2Code') and express.categoryLevel2Code!=''"> and category_level2_code = '${express.categoryLevel2Code}' </if>
+		<if test="express.containsKey('categoryCode') and express.categoryCode!=''"> and category_code = '${express.categoryCode}' </if>
+		<if test="express.containsKey('settlementObjectId') and express.settlementObjectId!=''"> and settlement_object_id = '${express.settlementObjectId}' </if>
+		<if test="express.containsKey('settleType') and express.settleType!=''"> and settle_type = '${express.settleType}' </if>
+		<if test="express.containsKey('accountBrief') and express.accountBrief!=''"> and account_brief = '${express.accountBrief}' </if>
+		<if test="express.containsKey('amount') and express.amount!=''"> and amount = '${express.amount}' </if>
+		<if test="express.containsKey('currency') and express.currency!=''"> and currency = '${express.currency}' </if>
+		<if test="express.containsKey('exchangeRate') and express.exchangeRate!=''"> and exchange_rate = '${express.exchangeRate}' </if>
+		<if test="express.containsKey('settelmentAmount') and express.settelmentAmount!=''"> and settelment_amount = '${express.settelmentAmount}' </if>
+		<if test="express.containsKey('creator') and express.creator!=''"> and creator = '${express.creator}' </if>
+		<if test="express.containsKey('modifiedBy') and express.modifiedBy!=''"> and modified_by = '${express.modifiedBy}' </if>
+		<if test="express.containsKey('auditor') and express.auditor!=''"> and auditor = '${express.auditor}' </if>
+		<if test="express.containsKey('refNo') and express.refNo!=''"> and ref_no = '${express.refNo}' </if>
+		<if test="express.containsKey('billNo') and express.billNo!=''"> and bill_no = '${express.billNo}' </if>
+		<if test="express.containsKey('note') and express.note!=''"> and note = '${express.note}' </if>
+		<if test="express.containsKey('attachement') and express.attachement!=''"> and attachement = '${express.attachement}' </if>
+		<if test="express.containsKey('df') and express.df!=''"> and df = '${express.df}' </if>
+		<if test="express.containsKey('status') and express.status!=''"> and status = '${express.status}' </if>
+		<if test="express.containsKey('inout') and express.inout!=''"> and in_out = '${express.inout}' </if>
+		<if test="express.containsKey('orgId') and express.orgId!=''"> and org_id = '${express.orgId}' </if>
+		<if test="express.containsKey('tradeTime') and express.tradeTime!=''"> and trade_time = '${express.tradeTime}' </if>
+		<if test="express.containsKey('createTime') and express.createTime!=''"> and create_time = '${express.createTime}' </if>
+		<if test="express.containsKey('modifyTime') and express.modifyTime!=''"> and modify_time = '${express.modifyTime}' </if>
+		<if test="express.containsKey('auditTime') and express.auditTime!=''"> and audit_time = '${express.auditTime}' </if>
+		<if test="express.containsKey('myExchangeRate') and express.myExchangeRate!=''"> and my_exchange_rate = '${express.myExchangeRate}' </if>
+		<if test="express.containsKey('unitPrice') and express.unitPrice!=''"> and unit_price = '${express.unitPrice}' </if>
+		<if test="express.containsKey('tradeUnit') and express.tradeUnit!=''"> and trade_unit = '${express.tradeUnit}' </if>
+		<if test="express.containsKey('count') and express.count!=''"> and count = '${express.count}' </if>
+		<if test="express.containsKey('version') and express.version!=''"> and version = '${express.version}' </if>
+		<if test="express.containsKey('vcId') and express.vcId!=''"> and vc_id = '${express.vcId}' </if>
+		<if test="express.containsKey('businessType') and express.businessType!=''"> and business_type = '${express.businessType}' </if>
+		<if test="express.containsKey('accountCurrency') and express.accountCurrency!=''"> and account_currency = '${express.accountCurrency}' </if>
+		<if test="express.containsKey('settlementCurrency') and express.settlementCurrency!=''"> and settlement_currency = '${express.settlementCurrency}' </if>
+		<if test="express.containsKey('settlementObjectName') and express.settlementObjectName!=''"> and settlement_object_name = '${express.settlementObjectName}' </if>
+	</sql>
+
+	<!-- 保存单条记录 -->
+	<insert id="insert" parameterType="com.ikats.ams.entity.AccountitemBean" useGeneratedKeys="true" keyProperty="id">
+		insert into ams_accountitem_history (
+		item_id
+		,account_id
+		,category_level1_code
+		,category_level2_code
+		,category_code
+		,settlement_object_id
+		,settle_type
+		,account_brief
+		,amount
+		,currency
+		,exchange_rate
+		,settelment_amount
+		,creator
+		,modified_by
+		,auditor
+		,ref_no
+		,bill_no
+		,note
+		,attachement
+		,df
+		,status
+		,in_out
+		,org_id
+		,trade_time
+		,create_time
+		,modify_time
+		,audit_time
+		,my_exchange_rate
+		,unit_price
+		,trade_unit
+		,count
+		,version
+		,vc_id
+		,business_type
+		,account_currency
+		,settlement_currency
+		,settlement_object_name
+		,category_level1_name
+		,category_level2_name
+		)
+		values (
+		#{itemId,jdbcType=VARCHAR}
+		,#{accountId,jdbcType=VARCHAR}
+		,#{categoryLevel1Code,jdbcType=VARCHAR}
+		,#{categoryLevel2Code,jdbcType=VARCHAR}
+		,#{categoryCode,jdbcType=VARCHAR}
+		,#{settlementObjectId,jdbcType=VARCHAR}
+		,#{settleType,jdbcType=VARCHAR}
+		,#{accountBrief,jdbcType=VARCHAR}
+		,#{amount,jdbcType=NUMERIC}
+		,#{currency,jdbcType=VARCHAR}
+		,#{exchangeRate,jdbcType=NUMERIC}
+		,#{settelmentAmount,jdbcType=NUMERIC}
+		,#{creator,jdbcType=VARCHAR}
+		,#{modifiedBy,jdbcType=VARCHAR}
+		,#{auditor,jdbcType=VARCHAR}
+		,#{refNo,jdbcType=VARCHAR}
+		,#{billNo,jdbcType=VARCHAR}
+		,#{note,jdbcType=VARCHAR}
+		,#{attachement,jdbcType=VARCHAR}
+		,'0'
+		,#{status,jdbcType=INTEGER}
+		,#{inout,jdbcType=VARCHAR}
+		,#{orgId,jdbcType=INTEGER}
+		,#{tradeTime,jdbcType=TIMESTAMP}
+		,now()
+		,#{modifyTime,jdbcType=TIMESTAMP}
+		,#{auditTime,jdbcType=TIMESTAMP}
+		,#{myExchangeRate,jdbcType=NUMERIC}
+		,#{unitPrice,jdbcType=NUMERIC}
+		,#{tradeUnit,jdbcType=VARCHAR}
+		,#{count,jdbcType=NUMERIC}
+		,#{version,jdbcType=VARCHAR}
+		,#{vcId,jdbcType=INTEGER}
+		,#{businessType,jdbcType=VARCHAR}
+  		,#{accountCurrency,jdbcType=VARCHAR}
+		,#{settlementCurrency,jdbcType=VARCHAR}
+		,#{settlementObjectName,jdbcType=VARCHAR}
+		,#{categoryLevel1Name,jdbcType=VARCHAR}
+		,#{categoryLevel2Name,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 保存一批记录 -->
+	<insert id="insertList" parameterType="List" >
+		insert into ams_accountitem_history (
+		item_id
+		,category_level1_code
+		,category_level2_code
+		,category_code
+		,settlement_object_id
+		,settle_type
+		,account_brief
+		,currency
+		,creator
+		,modified_by
+		,auditor
+		,ref_no
+		,note
+		,attachement
+		,df
+		,status
+		,in_out
+		,org_id
+		,trade_time
+		,create_time
+		,modify_time
+		,audit_time
+		,trade_unit
+		,count
+		,version
+		,vc_id
+		,business_type
+		,account_currency
+		,settlement_currency
+		,account_id
+		,settlement_object_name
+		,bill_no
+		,amount
+		,settelment_amount
+		,unit_price
+		,exchange_rate
+		,my_exchange_rate
+		,category_level1_name
+		,category_level2_name
+		)
+		values
+		<foreach collection="list" item="bean" index="index" separator="," >
+			(
+			#{bean.itemId,jdbcType=VARCHAR}
+			,#{bean.categoryLevel1Code,jdbcType=VARCHAR}
+			,#{bean.categoryLevel2Code,jdbcType=VARCHAR}
+			,#{bean.categoryCode,jdbcType=VARCHAR}
+			,#{bean.settlementObjectId,jdbcType=VARCHAR}
+			,#{bean.settleType,jdbcType=VARCHAR}
+			,#{bean.accountBrief,jdbcType=VARCHAR}
+			,#{bean.currency,jdbcType=VARCHAR}
+			,#{bean.creator,jdbcType=VARCHAR}
+			,#{bean.modifiedBy,jdbcType=VARCHAR}
+			,#{bean.auditor,jdbcType=VARCHAR}
+			,#{bean.refNo,jdbcType=VARCHAR}
+			,#{bean.note,jdbcType=VARCHAR}
+			,#{bean.attachement,jdbcType=VARCHAR}
+			,'0'
+			,#{bean.status,jdbcType=INTEGER}
+			,#{bean.inout,jdbcType=VARCHAR}
+			,#{bean.orgId,jdbcType=INTEGER}
+			,#{bean.tradeTime,jdbcType=TIMESTAMP}
+			,now()
+			,#{bean.modifyTime,jdbcType=TIMESTAMP}
+			,#{bean.auditTime,jdbcType=TIMESTAMP}
+			,#{bean.tradeUnit,jdbcType=VARCHAR}
+			,#{bean.count,jdbcType=NUMERIC}
+			,#{bean.version,jdbcType=VARCHAR}
+			,#{bean.vcId,jdbcType=INTEGER}
+			,#{bean.businessType,jdbcType=VARCHAR}
+			,#{bean.accountCurrency,jdbcType=VARCHAR}
+			,#{bean.settlementCurrency,jdbcType=VARCHAR}
+			,#{bean.accountId,jdbcType=VARCHAR}
+			,#{bean.settlementObjectName,jdbcType=VARCHAR}
+			,#{bean.billNo,jdbcType=VARCHAR}
+			,#{bean.amount,jdbcType=NUMERIC}
+			,#{bean.settelmentAmount,jdbcType=NUMERIC}
+			,#{bean.unitPrice,jdbcType=NUMERIC}
+			,#{bean.exchangeRate,jdbcType=NUMERIC}
+			,#{bean.myExchangeRate,jdbcType=NUMERIC}
+			,#{bean.categoryLevel1Name,jdbcType=VARCHAR}
+			,#{bean.categoryLevel2Name,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 根据ID更新记录 -->
+	<update id="update" parameterType="com.ikats.ams.entity.AccountitemBean">
+		update ams_accountitem_history
+		<set>
+			<if test="itemId != null "> item_id = #{itemId,jdbcType=VARCHAR}, </if>
+			<if test="accountId != null "> account_id = #{accountId,jdbcType=VARCHAR}, </if>
+			<if test="categoryLevel1Code != null "> category_level1_code = #{categoryLevel1Code,jdbcType=VARCHAR}, </if>
+			<if test="categoryLevel2Code != null "> category_level2_code = #{categoryLevel2Code,jdbcType=VARCHAR}, </if>
+			<if test="categoryCode != null "> category_code = #{categoryCode,jdbcType=VARCHAR}, </if>
+			<if test="settlementObjectId != null "> settlement_object_id = #{settlementObjectId,jdbcType=VARCHAR}, </if>
+			<if test="settleType != null "> settle_type = #{settleType,jdbcType=VARCHAR}, </if>
+			<if test="accountBrief != null "> account_brief = #{accountBrief,jdbcType=VARCHAR}, </if>
+			<if test="amount != null "> amount = #{amount,jdbcType=NUMERIC}, </if>
+			<if test="currency != null "> currency = #{currency,jdbcType=VARCHAR}, </if>
+			<if test="exchangeRate != null "> exchange_rate = #{exchangeRate,jdbcType=NUMERIC}, </if>
+			<if test="settelmentAmount != null "> settelment_amount = #{settelmentAmount,jdbcType=NUMERIC}, </if>
+			<if test="creator != null "> creator = #{creator,jdbcType=VARCHAR}, </if>
+			<if test="modifiedBy != null "> modified_by = #{modifiedBy,jdbcType=VARCHAR}, </if>
+			<if test="auditor != null "> auditor = #{auditor,jdbcType=VARCHAR}, </if>
+			<if test="refNo != null "> ref_no = #{refNo,jdbcType=VARCHAR}, </if>
+			<if test="billNo != null "> bill_no = #{billNo,jdbcType=VARCHAR}, </if>
+			<if test="note != null "> note = #{note,jdbcType=VARCHAR}, </if>
+			<if test="attachement != null "> attachement = #{attachement,jdbcType=VARCHAR}, </if>
+			<if test="df != null "> df = #{df,jdbcType=VARCHAR}, </if>
+			<if test="status != null "> status = #{status,jdbcType=INTEGER}, </if>
+			<if test="inout != null "> in_out = #{inout,jdbcType=VARCHAR}, </if>
+			<if test="orgId != null "> org_id = #{orgId,jdbcType=INTEGER}, </if>
+			<if test="tradeTime != null "> trade_time = #{tradeTime,jdbcType=TIMESTAMP}, </if>
+			<if test="createTime != null "> create_time = #{createTime,jdbcType=TIMESTAMP}, </if>
+			<if test="modifyTime != null "> modify_time = #{modifyTime,jdbcType=TIMESTAMP}, </if>
+			<if test="auditTime != null "> audit_time = #{auditTime,jdbcType=TIMESTAMP}, </if>
+			<if test="myExchangeRate != null "> my_exchange_rate = #{myExchangeRate,jdbcType=NUMERIC}, </if>
+			<if test="unitPrice != null "> unit_price = #{unitPrice,jdbcType=NUMERIC}, </if>
+			<if test="tradeUnit != null "> trade_unit = #{tradeUnit,jdbcType=VARCHAR}, </if>
+			<if test="count != null "> count = #{count,jdbcType=NUMERIC}, </if>
+			<if test="version != null "> version = #{version,jdbcType=VARCHAR}, </if>
+			<if test="vcId != null "> vc_id = #{vcId,jdbcType=INTEGER}, </if>
+			<if test="businessType != null "> business_type = #{businessType,jdbcType=VARCHAR}, </if>
+			<if test="accountCurrency != null "> account_currency = #{accountCurrency,jdbcType=VARCHAR}, </if>
+			<if test="settlementCurrency != null "> settlement_currency = #{settlementCurrency,jdbcType=VARCHAR}, </if>
+			<if test="settlementObjectName != null "> settlement_object_name = #{settlementObjectName,jdbcType=VARCHAR}, </if>
+			<if test="categoryLevel1Name != null "> category_level1_name = #{categoryLevel1Name,jdbcType=VARCHAR}, </if>
+			<if test="categoryLevel2Name != null "> category_level2_name = #{categoryLevel2Name,jdbcType=VARCHAR}, </if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID删除记录 -->
+	<update id="delete" parameterType="java.lang.Long">
+		update  ams_accountitem_history set  df='1'
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 根据ID查询记录 -->
+	<select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select <include refid="Base_Column_List" />
+		from ams_accountitem_history
+		where df='0'
+		and id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="pageByQuery" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from ams_accountitem_history
+		where df='0'
+		<include refid="Filter_Where" />
+		order by id desc
+		limit ${pageSize} offset ${pageNum}
+	</select>
+
+	<!-- 查询记录数量 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="com.ikats.ams.entity.query.AccountitemQuery">
+		select count(1)
+		from ams_accountitem_history
+		WHERE df='0'
+		<include refid="Filter_Where" />
+	</select>
+</mapper>
