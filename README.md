@@ -6,13 +6,14 @@ ams 结算平台
 
 #2 前段框架才用reactjs，可以和服务端合并一起部署，也可以拆分利用 nodejs 部署
 
-#3 项目结构
+结构目录：
    ams
      -- src
        --main
          --docker    #docker配置文件        
          --java      #源代码
          --resource  #项目静态资源，sql脚本
+         
          
 # 项目打包
 #1.传统方式部署
