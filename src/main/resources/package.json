@@ -15,7 +15,7 @@
   "license": "ikats",
   "dependencies": {
     "antd": "^2.11.0",
-    "axios": "^0.16.2",
+    "axios": "^0.21.1",
     "babel-polyfill": "^6.23.0",
     "lazy-route": "^1.0.7",
     "mobx": "^3.1.11",
